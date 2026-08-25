@@ -73,7 +73,7 @@ final class ItemTranslator{
 	public function toNetworkId(Item $item) : array{
 		//TODO: we should probably come up with a cache for this
 
-		$itemData = $this->itemSerializer->serializeType($item, $this->itemDataDowngrader);
+		$itemData = $this->toNetworkTypeData($item);
 
 		try {
 			$numericId = $this->itemTypeDictionary->fromStringId($itemData->getName());
@@ -93,6 +93,10 @@ final class ItemTranslator{
 		}
 
 		return [$numericId, $itemData->getMeta(), $blockRuntimeId];
+	}
+
+	public function toNetworkTypeData(Item $item) : SavedItemData{
+		return $this->itemSerializer->serializeType($item, $this->itemDataDowngrader);
 	}
 
 	/**
